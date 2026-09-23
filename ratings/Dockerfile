@@ -18,20 +18,14 @@ RUN a2enmod rewrite && a2enmod status
 
 WORKDIR /var/www/html
 
-COPY html/ /var/www/html
-
-# Install Composer(official imgae as build stage)
-FROM composer:2 AS composer_stage
-WORKDIR /app
+# Copy composer files first (for caching)
 COPY html/composer.json html/composer.lock* ./
+# Install Composer(official imgae as build stage)
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
-# Copy composer binary from stage
-FROM php:8.2-apache
-COPY --from=composer_stage /usr/bin/composer /usr/bin/composer
-WORKDIR /var/www/html
+# Copy application source
 COPY html/ /var/www/html
-RUN composer install --no-dev --optimize-autoloader
 
 # This is important. Symfony needs write permissions and we
 # dont know the context in which the container will run, i.e.
