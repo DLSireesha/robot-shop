@@ -1,10 +1,20 @@
-FROM golang:1.17
+FROM golang:1.22 AS builder
 
-WORKDIR /go/src/app
+WORKDIR /app
 
-COPY *.go .
+# Copy go.mod and go.sum first (for caching)
+COPY go.mod go.sum ./
+RUN go mod download
 
-RUN go mod init dispatch && go get
-RUN go install
+# Copy source code
+COPY . .
 
-CMD dispatch
+# Build the binary
+RUN go build -o dispatch .
+
+# Final stage
+FROM debian:bullseye-slim
+WORKDIR /app
+COPY --from=builder /app/dispatch .
+CMD ["./dispatch"]
+
