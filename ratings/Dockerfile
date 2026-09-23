@@ -5,7 +5,7 @@ FROM php:8.2-apache
 
 # Install required packages and PHP extensions
 RUN apt-get update && apt-get install -y --no-install-recommends unzip libzip-dev \
-    && docker-php-ext-install pdo_mysql opcache zip \
+    && docker-php-ext-install xml pdo_mysql opcache zip \
     && rm -rf /var/lib/apt/lists/*
 
 # Enable AutoProfile for PHP which is currently opt-in beta
