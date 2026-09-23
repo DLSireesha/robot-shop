@@ -1,7 +1,7 @@
 #
 # Build
 #
-FROM maven:3.8.8-openjdk-8 AS build
+FROM maven:4.0.0-rc-5-eclipse-temurin-17-noble AS build
 
 WORKDIR /opt/shipping
 
