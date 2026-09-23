@@ -23,8 +23,8 @@ COPY html/ /var/www/html
 # Install Composer(official imgae as build stage)
 FROM composer:2 AS composer_stage
 WORKDIR /app
-COPY html/composer ./composer.json
-RUN composer install --no-dev --optimize-autoloader
+COPY html/composer.json html/composer.lock* ./
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
 # Copy composer binary from stage
 FROM php:8.2-apache
