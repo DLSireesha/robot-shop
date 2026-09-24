@@ -3,7 +3,7 @@ FROM golang:1.22 AS builder
 WORKDIR /app
 
 # Copy go.mod and go.sum first (for caching)
-COPY dispatch/go.mod dispatch/go.sum ./
+COPY go.mod go.sum ./
 RUN go mod download
 
 # Copy source code
