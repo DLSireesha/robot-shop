@@ -4,7 +4,6 @@ WORKDIR /app
 
 # Copy go.mod and go.sum first (for caching)
 COPY go.mod go.sum ./
-RUN go mod download
 
 # Copy source code
 COPY . .
