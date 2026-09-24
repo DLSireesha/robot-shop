@@ -7,7 +7,7 @@ COPY dispatch/go.mod dispatch/go.sum ./
 RUN go mod download
 
 # Copy source code
-COPY dispatch/ .
+COPY . .
 
 # Build the binary
 RUN go build -o dispatch .
